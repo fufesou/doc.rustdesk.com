@@ -18,7 +18,7 @@ faq:
   - question: '為什麼我的無頭 Linux 主機畫面是黑的？'
     answer: '只要沒有接上顯示器，X 或 Wayland 就不會配置畫面緩衝區，因此 RustDesk 沒有任何畫面可以擷取，檢視端就會顯示黑畫面或「等待影像」畫面。你可以接上假的 HDMI/DisplayPort 接頭，或參閱下方的無頭裝置章節了解其他方案。'
   - question: '我可以在 Linux 上自行架設 RustDesk 伺服器嗎？'
-    answer: '可以。RustDesk 伺服器（包含 hbbs ID/集合處理程序與 hbbr 中繼處理程序）是為 Linux 打造的，也是最標準的執行方式。免費開源的社群版伺服器可以無限期免費執行，而 Server Pro 則在此基礎上額外提供網頁管理主控台、裝置群組與自訂用戶端產生器等功能。兩者都能安裝在一般的 Linux VM 或裸機主機上。'
+    answer: '可以。RustDesk 伺服器（包含 hbbs ID/集合（rendezvous）服務與 hbbr 中繼處理程序）是為 Linux 打造的，也是最標準的執行方式。免費開源的社群版伺服器可以無限期免費執行，而 Server Pro 則在此基礎上額外提供網頁管理主控台、裝置群組與自訂用戶端產生器等功能。兩者都能安裝在一般的 Linux VM 或裸機主機上。'
 metadata:
   description: '完整介紹 RustDesk 在 Linux 上的使用：各發行版與 ARM 開發板的安裝包選擇、Wayland 與 X11 畫面擷取、無頭設定，以及如何自行架設伺服器。'
   keywords: 'RustDesk Linux 版, RustDesk Ubuntu 安裝, RustDesk Wayland 支援, RustDesk X11, RustDesk Linux 安裝教學'
