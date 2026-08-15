@@ -58,7 +58,7 @@ Une fois que RustDesk s'exécute en tant que service, il se charge avant que qui
 | ---------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Windows    | Installer ; garder le service en cours d'exécution (démarre avec la machine) | L'exe portable se coupe à la déconnexion/UAC ; utilisez le programme d'installation                                                                                             |
 | macOS      | Installer, définir un mot de passe permanent, accorder les autorisations     | Enregistrement de l'écran et Accessibilité doivent être accordés ; la capture à l'écran de connexion nécessite l'installation de l'assistant                                    |
-| Linux      | Installer le paquet du service                                               | Wayland nécessite une session active ; pour l'accès avant connexion, utilisez la configuration d'affichage virtuel headless, ou X11 là où une distribution en propose encore un |
+| Linux      | Installer le paquet du service                                               | Wayland nécessite une session active ; pour l'accès avant connexion, utilisez X11 là où une distribution en propose encore un                                             |
 | Android    | Définir un mot de passe permanent ; activer la capture                       | L'écran doit être allumé ; accordez le consentement de capture d'écran (MediaProjection) et l'autorisation de saisie                                                            |
 
 ### Windows
@@ -71,7 +71,7 @@ macOS conditionne la capture d'écran et la saisie à des autorisations. Après 
 
 ### Linux
 
-Installez RustDesk afin que son composant de service s'exécute au démarrage. Pour une machine qui reste à l'écran d'accueil de connexion (greeter), Wayland ne peut pas encore capturer ce greeter — une limitation de conception propre à Wayland (et non une limite de RustDesk) que RustDesk s'efforce activement de résoudre ([PR #15420](https://github.com/rustdesk/rustdesk/pull/15420)). Sur une machine headless, utilisez la configuration d'affichage virtuel ; sur un poste de bureau, une session X11/Xorg s'en charge encore là où une distribution en propose une, bien que plusieurs migrent désormais vers Wayland exclusivement. Consultez [RustDesk pour Linux](/fr/blog/rustdesk-pour-linux-le-bureau-a-distance-open-source) pour plus de détails.
+Installez RustDesk afin que son composant de service s'exécute au démarrage. Pour une machine qui reste à l'écran d'accueil de connexion (greeter), Wayland ne peut pas encore capturer ce greeter — une limitation de conception propre à Wayland (et non une limite de RustDesk) que RustDesk s'efforce activement de résoudre ([PR #15420](https://github.com/rustdesk/rustdesk/pull/15420)). Sur un poste de bureau, une session X11/Xorg s'en charge encore là où une distribution en propose une, bien que plusieurs migrent désormais vers Wayland exclusivement. Consultez [RustDesk pour Linux](/fr/blog/rustdesk-pour-linux-le-bureau-a-distance-open-source) pour plus de détails.
 
 ## Étape 3 : Déployer à grande échelle avec un client préconfiguré
 
