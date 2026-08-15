@@ -82,7 +82,7 @@ RustDesk는 여러 방식으로 스트림을 인코딩할 수 있으며, 기본 
 
 ### Linux와 Wayland
 
-Linux에서 **Wayland 화면 캡처는 PipeWire와 `xdg-desktop-portal`을 거쳐** 이루어집니다. 처음 한 번은 어떤 화면을 선택할지 동의를 요청하는 프롬프트가 뜨며 — 대부분의 경우 이 선택이 저장되어 다시 묻지 않습니다 — 활성 로그인 세션 내에서 작동합니다. 이는 Wayland의 보안 설계 방식이기 때문에, 그 자체로는 그리터(greeter, 로그인 화면)를 포함하지 않습니다 — 다만 무인(unattended) Wayland 캡처 기능은 현재 활발히 개발 중입니다 ([PR #15420](https://github.com/rustdesk/rustdesk/pull/15420)). Wayland에서 빈 화면이 나타난다면, 보통 포털의 화면 공유 프롬프트를 수락하고 `xdg-desktop-portal`과 PipeWire가 설치되어 실행 중인지 확인하면 해결됩니다. 배포판이 여전히 X11/Xorg 세션을 제공한다면 이를 사용해 로그인하는 것도 포털 경로를 피하는 방법입니다 — 하지만 많은 배포판이 Wayland 전용으로 전환하고 있는 만큼, 포털/PipeWire 경로를 제대로 해결하는 편이 더 미래 지향적인 접근입니다.
+Linux에서 **Wayland 화면 캡처는 PipeWire와 `xdg-desktop-portal`을 거쳐** 이루어집니다. 처음 한 번은 어떤 화면을 선택할지 동의를 요청하는 프롬프트가 뜨며 — 대부분의 경우 이 선택이 저장되어 다시 묻지 않습니다 — 활성 로그인 세션 내에서 작동합니다. 이는 Wayland의 보안 설계 방식이기 때문에, 그 자체로는 그리터(greeter, 로그인 화면)나 완전한 헤드리스 환경을 포함하지 않습니다 — 다만 무인(unattended) Wayland 캡처 기능은 현재 활발히 개발 중입니다 ([PR #15420](https://github.com/rustdesk/rustdesk/pull/15420)). Wayland에서 빈 화면이 나타난다면, 보통 포털의 화면 공유 프롬프트를 수락하고 `xdg-desktop-portal`과 PipeWire가 설치되어 실행 중인지 확인하면 해결됩니다. 배포판이 여전히 X11/Xorg 세션을 제공한다면 이를 사용해 로그인하는 것도 포털 경로를 피하는 방법입니다 — 하지만 많은 배포판이 Wayland 전용으로 전환하고 있는 만큼, 포털/PipeWire 경로를 제대로 해결하는 편이 더 미래 지향적인 접근입니다.
 
 ### 네트워크와 릴레이
 

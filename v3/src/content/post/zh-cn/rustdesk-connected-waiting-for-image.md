@@ -82,7 +82,7 @@ RustDesk 可以用多种方式对视频流进行编码，默认选项并不总�
 
 ### Linux 与 Wayland
 
-在 Linux 上，**Wayland 屏幕捕获需要经过 PipeWire 和 `xdg-desktop-portal`**：它会在首次使用时弹出授权提示，让你选择要捕获的显示器——大多数情况下这个选择会被记住，因此之后不会再次提示——并且只在活动的登录会话内生效。这是 Wayland 的安全设计，因此它本身无法覆盖登录管理器（greeter）界面——不过无人值守的 Wayland 捕获功能正在积极开发中（[PR #15420](https://github.com/rustdesk/rustdesk/pull/15420)）。如果你在 Wayland 上遇到画面空白，通常的解决办法是接受 portal 的屏幕共享提示，并确认 `xdg-desktop-portal` 和 PipeWire 已安装并正在运行。如果发行版仍然提供 X11/Xorg 会话，登录该会话也可以绕开 portal 路径——但随着越来越多发行版转向仅支持 Wayland，修复 portal/PipeWire 路径才是更长远的做法。
+在 Linux 上，**Wayland 屏幕捕获需要经过 PipeWire 和 `xdg-desktop-portal`**：它会在首次使用时弹出授权提示，让你选择要捕获的显示器——大多数情况下这个选择会被记住，因此之后不会再次提示——并且只在活动的登录会话内生效。这是 Wayland 的安全设计，因此它本身无法覆盖登录管理器（greeter）界面或真正的无头主机——不过无人值守的 Wayland 捕获功能正在积极开发中（[PR #15420](https://github.com/rustdesk/rustdesk/pull/15420)）。如果你在 Wayland 上遇到画面空白，通常的解决办法是接受 portal 的屏幕共享提示，并确认 `xdg-desktop-portal` 和 PipeWire 已安装并正在运行。如果发行版仍然提供 X11/Xorg 会话，登录该会话也可以绕开 portal 路径——但随着越来越多发行版转向仅支持 Wayland，修复 portal/PipeWire 路径才是更长远的做法。
 
 ### 网络与中继
 

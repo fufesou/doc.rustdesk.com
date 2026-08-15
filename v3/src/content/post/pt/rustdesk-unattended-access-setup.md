@@ -58,7 +58,7 @@ Assim que o RustDesk passa a rodar como serviço, ele é carregado antes de qual
 | ---------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Windows    | Instale; mantenha o serviço em execução (inicia com a máquina) | O executável portátil perde a sessão no logout ou em prompts de UAC; use o instalador                                                                                    |
 | macOS      | Instale, defina a senha permanente, conceda as permissões      | É preciso conceder Gravação de Tela e Acessibilidade; a captura na tela de login exige o helper instalado                                                                |
-| Linux      | Instale o pacote de serviço                                    | O Wayland precisa de uma sessão ativa; para pré-login use X11 onde a distribuição ainda oferecer essa opção                                             |
+| Linux      | Instale o pacote de serviço                                    | O Wayland precisa de uma sessão ativa; para pré-login use a configuração de display virtual sem monitor (headless), ou X11 onde a distribuição ainda oferecer essa opção |
 | Android    | Defina a senha permanente; ative a captura                     | A tela precisa estar ativa; conceda o consentimento de captura de tela (MediaProjection) e a permissão de entrada                                                        |
 
 ### Windows
@@ -71,7 +71,7 @@ O macOS restringe a captura de tela e a entrada por trás de permissões. Depois
 
 ### Linux
 
-Instale o RustDesk para que o componente de serviço seja executado na inicialização. Em uma máquina parada na tela de login (greeter), o Wayland ainda não consegue capturar o greeter — uma limitação do design do Wayland (não uma limitação do RustDesk) que a equipe está trabalhando ativamente para resolver ([PR #15420](https://github.com/rustdesk/rustdesk/pull/15420)). Em um desktop, uma sessão X11/Xorg ainda resolve isso onde a distribuição oferecer essa opção, embora várias estejam migrando para Wayland exclusivamente. Veja [RustDesk para Linux](/pt/blog/rustdesk-para-linux-o-desktop-remoto-de-codigo-aberto) para mais detalhes.
+Instale o RustDesk para que o componente de serviço seja executado na inicialização. Em uma máquina parada na tela de login (greeter), o Wayland ainda não consegue capturar o greeter — uma limitação do design do Wayland (não uma limitação do RustDesk) que a equipe está trabalhando ativamente para resolver ([PR #15420](https://github.com/rustdesk/rustdesk/pull/15420)). Em uma máquina headless, use a configuração de display virtual; em um desktop, uma sessão X11/Xorg ainda resolve isso onde a distribuição oferecer essa opção, embora várias estejam migrando para Wayland exclusivamente. Veja [RustDesk para Linux](/pt/blog/rustdesk-para-linux-o-desktop-remoto-de-codigo-aberto) para mais detalhes.
 
 ## Etapa 3: implante em escala com um cliente pré-configurado
 

@@ -60,7 +60,7 @@ Once RustDesk runs as a service, it loads before anyone logs in, which is what l
 | -------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | Windows  | Install; keep the service running (starts with the machine) | Portable exe drops on logout/UAC; use the installer                                                                           |
 | macOS    | Install, set permanent password, grant permissions          | Screen Recording and Accessibility must be granted; login-screen capture needs the helper installed                           |
-| Linux    | Install the service package                                 | Wayland needs an active session; for pre-login use X11 where a distro still offers one                                 |
+| Linux    | Install the service package                                 | Wayland needs an active session; for pre-login use the headless virtual-display setup, or X11 where a distro still offers one |
 | Android  | Set permanent password; enable capture                      | Screen must be awake; grant the screen-capture (MediaProjection) consent and input permission                                 |
 
 ### Windows
@@ -73,7 +73,7 @@ macOS gates screen capture and input behind permissions. After installing, open 
 
 ### Linux
 
-Install RustDesk so its service component runs at boot. For a machine that sits at the login greeter, Wayland can't capture the greeter yet — a Wayland design (not a RustDesk limit) that RustDesk is actively working to close ([PR #15420](https://github.com/rustdesk/rustdesk/pull/15420)). On a desktop, an X11/Xorg session still handles it where a distribution provides one, though several are moving to Wayland-only. See [RustDesk for Linux](/blog/rustdesk-for-linux) for the details.
+Install RustDesk so its service component runs at boot. For a machine that sits at the login greeter, Wayland can't capture the greeter yet — a Wayland design (not a RustDesk limit) that RustDesk is actively working to close ([PR #15420](https://github.com/rustdesk/rustdesk/pull/15420)). On a headless box, use the virtual-display configuration; on a desktop, an X11/Xorg session still handles it where a distribution provides one, though several are moving to Wayland-only. See [RustDesk for Linux](/blog/rustdesk-for-linux) for the details.
 
 ## Step 3: Deploy at scale with a pre-configured client
 

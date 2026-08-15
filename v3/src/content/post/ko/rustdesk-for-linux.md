@@ -4,7 +4,7 @@ lang: 'ko'
 translationKey: 'rustdesk-for-linux'
 draft: false
 title: '리눅스용 RustDesk: 오픈소스 원격 데스크톱'
-excerpt: '리눅스에서 RustDesk를 설치하고 실행하는 방법: .deb, .rpm, Flatpak, AppImage 패키지 선택, X11과 Wayland 비교, 무인 접속, 서버 자체 호스팅까지 다룹니다.'
+excerpt: '리눅스에서 RustDesk를 설치하고 실행하는 방법: .deb, .rpm, Flatpak, AppImage 패키지 선택, X11과 Wayland 비교, 헤드리스 및 무인 접속, 서버 자체 호스팅까지 다룹니다.'
 image: '~/assets/images/blog/rustdesk-for-linux-og.webp'
 category: '가이드'
 tags: ['RustDesk', 'Linux', '셀프 호스팅']
@@ -12,19 +12,21 @@ author: 'RustDesk Team'
 slug: 'rustdesk-for-linux-ko'
 faq:
   - question: 'RustDesk는 Wayland에서 작동하나요?'
-    answer: '네 — RustDesk는 1.4.3에서 추가된 다중 모니터 공유를 포함해 원격 데스크톱 도구 중에서도 손꼽히게 강력한 Wayland 지원을 제공합니다. Wayland에서는 PipeWire와 XDG 데스크톱 포털을 통해 화면을 캡처하며, 공유할 디스플레이를 선택하는 동의 대화상자가 표시됩니다 — 대부분의 경우 선택 사항이 기억되어 다시 묻지 않으며, 현재 로그인된 세션 내에서 작동합니다. 이 동의 절차는 모든 화면 공유 앱에 공통으로 적용되는 Wayland의 보안 설계입니다. 로그인 이전이나 완전 무인 상태의 머신에서는 배포판이 아직 X11 세션을 제공한다면 X11 세션을 사용하세요. 완전 무인 Wayland 캡처는 현재 활발히 개발 중입니다(github.com/rustdesk/rustdesk/pull/15420 참고).'
+    answer: '네 — RustDesk는 1.4.3에서 추가된 다중 모니터 공유를 포함해 원격 데스크톱 도구 중에서도 손꼽히게 강력한 Wayland 지원을 제공합니다. Wayland에서는 PipeWire와 XDG 데스크톱 포털을 통해 화면을 캡처하며, 공유할 디스플레이를 선택하는 동의 대화상자가 표시됩니다 — 대부분의 경우 선택 사항이 기억되어 다시 묻지 않으며, 현재 로그인된 세션 내에서 작동합니다. 이 동의 절차는 모든 화면 공유 앱에 공통으로 적용되는 Wayland의 보안 설계입니다. 로그인 이전이나 완전 무인 상태의 머신에서는 배포판이 아직 X11 세션을 제공한다면 X11 세션을 사용하세요(여러 배포판이 Wayland 전용으로 전환하고 있습니다). 완전 무인 Wayland 캡처는 현재 활발히 개발 중입니다(github.com/rustdesk/rustdesk/pull/15420 참고).'
   - question: '리눅스에서 어떤 패키지를 설치해야 하나요?'
     answer: 'Debian, Ubuntu, Linux Mint에서는 .deb를, Fedora, RHEL, openSUSE에서는 .rpm을 사용하세요. 샌드박스 환경에서 폭넓은 호환성을 원한다면 Flathub의 Flatpak을, 단일 파일로 된 대안이 필요하다면 휴대용 AppImage를 사용할 수 있습니다. .deb와 .rpm 패키지는 systemd 서비스를 등록하고 시작하므로 재부팅 후에도 RustDesk가 유지되지만, Flatpak과 AppImage는 기본적으로 그렇지 않습니다.'
+  - question: '헤드리스 리눅스 머신에서 왜 검은 화면이 나타나나요?'
+    answer: '모니터가 연결되어 있지 않으면 X나 Wayland는 프레임버퍼를 전혀 할당하지 않으므로 RustDesk가 캡처할 화면 자체가 없어, 뷰어에는 검은 화면 또는 이미지 대기 화면이 표시됩니다. 더미 HDMI/DisplayPort 플러그를 연결하거나 다른 옵션은 아래 헤드리스 섹션을 참고하세요.'
   - question: '리눅스에서 RustDesk 서버를 직접 호스팅할 수 있나요?'
     answer: '네. RustDesk 서버(hbbs ID/랑데부 프로세스와 hbbr 릴레이 프로세스)는 리눅스용으로 제작되었으며 이것이 표준적인 실행 방식입니다. 무료 오픈소스 커뮤니티 서버는 비용 없이 무기한 실행할 수 있으며, Server Pro는 여기에 웹 콘솔, 기기 그룹, 맞춤 클라이언트 생성기를 추가로 제공합니다. 두 가지 모두 일반 리눅스 VM이나 베어메탈 호스트에 설치할 수 있습니다.'
 metadata:
-  description: '리눅스용 RustDesk를 처음부터 끝까지 다룹니다: 모든 배포판과 ARM 보드에 맞는 패키지 선택, Wayland 및 X11 화면 캡처, 자체 서버 운영까지.'
+  description: '리눅스용 RustDesk를 처음부터 끝까지 다룹니다: 모든 배포판과 ARM 보드에 맞는 패키지 선택, Wayland 및 X11 화면 캡처, 헤드리스 설정, 자체 서버 운영까지.'
   keywords: 'RustDesk 리눅스, RustDesk 우분투, RustDesk Wayland, RustDesk X11, RustDesk 리눅스 설치'
 ---
 
 리눅스 사용자에게는 그동안 괜찮은 원격 데스크톱 도구의 선택지가 그리 많지 않았고, 존재하는 도구들도 대부분 폐쇄형 상용 제품이거나 오래된 VNC 스택이었습니다. RustDesk는 이와는 다른 위치에 있습니다. AGPL 라이선스로 배포되는 오픈소스 원격 데스크톱 클라이언트이며, 모든 주요 배포판에서 네이티브로 실행되고, 직접 호스팅하는 서버를 지정해 사용할 수도 있습니다. 감사 가능한 코드, 네이티브 리눅스 클라이언트, 자체 호스팅 가능한 인프라라는 이 조합이야말로 누군가 리눅스용 오픈소스 원격 데스크톱을 찾을 때 RustDesk가 가장 먼저 거론되는 답 중 하나가 된 이유입니다.
 
-이 가이드에서는 설치 방법, 누구나 한 번쯤 헷갈리는 부분(X11과 Wayland의 차이), 무인 접속을 설정하는 방법, 그리고 서버가 전체 구조에서 어떤 역할을 하는지 다룹니다.
+이 가이드에서는 설치 방법, 누구나 한 번쯤 헷갈리는 부분(X11과 Wayland의 차이), 무인 및 헤드리스 접속을 설정하는 방법, 그리고 서버가 전체 구조에서 어떤 역할을 하는지 다룹니다.
 
 ## 리눅스에 RustDesk 설치하기
 
@@ -61,6 +63,9 @@ Wayland 지원은 계속 개선되고 있습니다 — 예를 들어 RustDesk 1.
 
 1. systemd 서비스가 등록되도록 `.deb` 또는 `.rpm`으로 설치하거나, 앱에서 **서비스 활성화**를 클릭하세요.
 2. RustDesk의 연결 설정에서 강력한 **고정 비밀번호**를 설정하세요(가능하면 2단계 인증도 활성화하세요).
+3. 로그인 이전이나 사용자 로그인 전반에 걸쳐 접속하려면 위에서 다룬 Wayland 그리터의 한계를 고려하세요.
+
+염두에 두어야 할 Wayland의 현실이 하나 있습니다. Wayland 절에서 설명한 동의 기반 포털 방식 때문에, 개발 중인 무인 지원 기능이 정식으로 도입되기 전까지는 완전한 무인 캡처가 X11보다 까다롭습니다.
 
 ## 헤드리스 리눅스: 모니터가 없는 서버
 

@@ -4,7 +4,7 @@ lang: 'fr'
 translationKey: 'rustdesk-for-linux'
 draft: false
 title: 'RustDesk pour Linux : le bureau à distance open source'
-excerpt: 'Installez et exécutez RustDesk sur Linux : .deb, .rpm, Flatpak et AppImage, X11 face à Wayland, accès sans surveillance et auto-hébergement du serveur.'
+excerpt: 'Installez et exécutez RustDesk sur Linux : .deb, .rpm, Flatpak et AppImage, X11 face à Wayland, accès headless et sans surveillance, et auto-hébergement du serveur.'
 image: '~/assets/images/blog/rustdesk-for-linux-og.webp'
 category: 'Guides'
 tags: ['RustDesk', 'Linux', 'Auto-hébergement']
@@ -12,19 +12,21 @@ author: 'RustDesk Team'
 slug: 'rustdesk-pour-linux-le-bureau-a-distance-open-source'
 faq:
   - question: 'RustDesk fonctionne-t-il sous Wayland ?'
-    answer: "Oui — RustDesk offre l'un des meilleurs niveaux de prise en charge de Wayland parmi les outils de bureau à distance, avec notamment le partage multi-écrans ajouté dans la version 1.4.3. Sous Wayland, RustDesk capture l'écran via PipeWire et le portail de bureau XDG, qui affiche une boîte de dialogue de consentement pour choisir un écran — dans la plupart des cas, ce choix est mémorisé et il ne vous sera plus redemandé — et fonctionne au sein de la session graphique active. Cette étape de consentement fait partie de la conception sécuritaire de Wayland, commune à toutes les applications de partage d'écran. Pour un accès avant connexion ou totalement sans surveillance, utilisez aujourd'hui une session X11 lorsque votre distribution en propose encore une, car plusieurs migrent désormais exclusivement vers Wayland ; la capture Wayland totalement sans surveillance est en cours de développement actif (voir github.com/rustdesk/rustdesk/pull/15420)."
+    answer: "Oui — RustDesk offre l'un des meilleurs niveaux de prise en charge de Wayland parmi les outils de bureau à distance, avec notamment le partage multi-écrans ajouté dans la version 1.4.3. Sous Wayland, RustDesk capture l'écran via PipeWire et le portail de bureau XDG, qui affiche une boîte de dialogue de consentement pour choisir un écran — dans la plupart des cas, ce choix est mémorisé et il ne vous sera plus redemandé — et fonctionne au sein de la session graphique active. Cette étape de consentement fait partie de la conception sécuritaire de Wayland, commune à toutes les applications de partage d'écran. Pour un accès avant connexion ou totalement sans surveillance, utilisez une session X11 lorsque votre distribution en propose encore une (plusieurs migrent désormais exclusivement vers Wayland) ; la capture Wayland totalement sans surveillance est en cours de développement actif (voir github.com/rustdesk/rustdesk/pull/15420)."
   - question: 'Quel paquet dois-je installer sur Linux ?'
     answer: "Utilisez le .deb sur Debian, Ubuntu et Linux Mint, le .rpm sur Fedora, RHEL et openSUSE, le Flatpak depuis Flathub pour une version isolée (sandboxée) et largement compatible, ou l'AppImage portable comme solution de repli en un seul fichier. Les paquets .deb et .rpm enregistrent et démarrent un service systemd afin que RustDesk survive aux redémarrages ; le Flatpak et l'AppImage ne le font pas par défaut."
+  - question: 'Pourquoi ma machine Linux headless affiche-t-elle un écran noir ?'
+    answer: "Sans moniteur branché, X ou Wayland n'alloue jamais de framebuffer : il n'y a donc rien que RustDesk puisse capturer, et le visualiseur affiche un écran noir ou un message d'attente d'image. Branchez un faux connecteur HDMI/DisplayPort (dummy plug) ou consultez la section headless ci-dessous pour connaître les autres options."
   - question: 'Puis-je auto-héberger le serveur RustDesk sur Linux ?'
     answer: "Oui. Le serveur RustDesk (les processus hbbs pour l'ID/rendez-vous et hbbr pour le relais) est conçu pour Linux, et c'est la manière standard de l'exécuter. Le serveur communautaire, gratuit et open source, fonctionne indéfiniment sans frais, tandis que Server Pro ajoute une console web, des groupes d'appareils et un générateur de client personnalisé. Les deux s'installent sur une simple VM Linux ou un serveur physique (bare-metal)."
 metadata:
-  description: 'RustDesk sur Linux, de bout en bout : choix des paquets pour chaque distribution et carte ARM, capture Wayland et X11, et hébergement de votre propre serveur.'
+  description: 'RustDesk sur Linux, de bout en bout : choix des paquets pour chaque distribution et carte ARM, capture Wayland et X11, configuration headless, et hébergement de votre propre serveur.'
   keywords: 'RustDesk pour Linux, RustDesk Ubuntu, RustDesk Wayland, RustDesk X11, installation RustDesk Linux'
 ---
 
 Les utilisateurs de Linux n'ont jamais eu un grand choix de bons outils de bureau à distance, et ceux qui existent sont généralement soit des produits commerciaux à code source fermé, soit des piles VNC vieillissantes. RustDesk se démarque : c'est un client de bureau à distance open source sous licence AGPL, qui fonctionne nativement sur toutes les principales distributions, et que vous pouvez connecter à un serveur que vous hébergez vous-même. Cette combinaison — code auditable, client Linux natif et infrastructure auto-hébergeable — explique pourquoi RustDesk est devenu l'une des réponses de référence lorsqu'on cherche un bureau à distance open source pour Linux.
 
-Ce guide explique comment l'installer, le point qui pose problème à presque tout le monde (X11 face à Wayland), comment faire fonctionner l'accès sans surveillance et quelle est la place du serveur dans tout cela.
+Ce guide explique comment l'installer, le point qui pose problème à presque tout le monde (X11 face à Wayland), comment faire fonctionner l'accès sans surveillance et headless, et quelle est la place du serveur dans tout cela.
 
 ## Installer RustDesk sur Linux
 
@@ -61,6 +63,9 @@ L'accès sans surveillance consiste à se connecter à une machine sans personne
 
 1. Installez via `.deb` ou `.rpm` afin que le service systemd soit enregistré, ou cliquez sur **Activer le service** dans l'application.
 2. Dans RustDesk, définissez un **mot de passe permanent** robuste dans les paramètres de connexion (et activez idéalement l'authentification à deux facteurs).
+3. Pour un accès avant ou entre les connexions utilisateur, tenez compte de la limite concernant l'écran de connexion Wayland évoquée plus haut.
+
+Une réalité de Wayland à anticiper : le portail basé sur le consentement décrit dans la section Wayland rend la capture totalement sans surveillance plus difficile que sous X11, tant que la prise en charge en développement n'est pas disponible.
 
 ## Linux headless : des serveurs sans moniteur
 

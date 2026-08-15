@@ -4,7 +4,7 @@ lang: 'zh-cn'
 translationKey: 'rustdesk-for-linux'
 draft: false
 title: 'RustDesk for Linux：开源远程桌面工具'
-excerpt: '在 Linux 上安装并运行 RustDesk：涵盖 .deb、.rpm、Flatpak 与 AppImage 安装包、X11 与 Wayland 对比、无人值守访问，以及自建服务器。'
+excerpt: '在 Linux 上安装并运行 RustDesk：涵盖 .deb、.rpm、Flatpak 与 AppImage 安装包、X11 与 Wayland 对比、无头模式与无人值守访问，以及自建服务器。'
 image: '~/assets/images/blog/rustdesk-for-linux-og.webp'
 category: '指南'
 tags: ['RustDesk', 'Linux', '自托管']
@@ -12,19 +12,21 @@ author: 'RustDesk Team'
 slug: 'rustdesk-for-linux-zh-cn'
 faq:
   - question: 'RustDesk 支持 Wayland 吗？'
-    answer: '是的——在所有远程桌面工具中，RustDesk 对 Wayland 的支持堪称最强之一，其中包括 1.4.3 版本新增的多显示器共享功能。在 Wayland 上，RustDesk 通过 PipeWire 和 XDG 桌面门户捕获屏幕，系统会弹出一个授权对话框让你选择要共享的显示器——多数情况下这个选择会被记住，因此不会每次都重复询问——并且捕获操作是在当前已登录的会话内进行的。这一授权步骤是 Wayland 的安全设计，所有屏幕共享类应用都要遵循。对于目前需要登录前访问或完全无人值守的机器，请在仍然提供 X11 会话的发行版上使用 X11；完全无人值守的 Wayland 捕获功能目前正在积极开发中（参见 github.com/rustdesk/rustdesk/pull/15420）。'
+    answer: '是的——在所有远程桌面工具中，RustDesk 对 Wayland 的支持堪称最强之一，其中包括 1.4.3 版本新增的多显示器共享功能。在 Wayland 上，RustDesk 通过 PipeWire 和 XDG 桌面门户捕获屏幕，系统会弹出一个授权对话框让你选择要共享的显示器——多数情况下这个选择会被记住，因此不会每次都重复询问——并且捕获操作是在当前已登录的会话内进行的。这一授权步骤是 Wayland 的安全设计，所有屏幕共享类应用都要遵循。对于目前需要登录前访问或完全无人值守的机器，可以在仍然提供 X11 会话的发行版上使用 X11（已有不少发行版正转向仅支持 Wayland）；完全无人值守的 Wayland 捕获功能目前正在积极开发中（参见 github.com/rustdesk/rustdesk/pull/15420）。'
   - question: '在 Linux 上应该安装哪种安装包？'
     answer: '在 Debian、Ubuntu 和 Linux Mint 上使用 .deb，在 Fedora、RHEL 和 openSUSE 上使用 .rpm，如果想要沙盒化且兼容性广泛的构建版本可以选择来自 Flathub 的 Flatpak，或者选择便携的单文件 AppImage 作为备用方案。.deb 和 .rpm 安装包会注册并启动 systemd 服务，因此 RustDesk 能在重启后依然运行；而 Flatpak 和 AppImage 默认不会这样做。'
+  - question: '为什么我的无头 Linux 主机显示黑屏？'
+    answer: '在没有连接显示器的情况下，X 或 Wayland 根本不会分配帧缓冲区，因此 RustDesk 没有内容可以捕获，你会看到黑屏或“等待图像”的提示。你可以接入 HDMI/DisplayPort 显示器模拟插头，或参阅下文的无头设备章节了解其他方案。'
   - question: '我可以在 Linux 上自建 RustDesk 服务器吗？'
     answer: '可以。RustDesk 服务器（包括 hbbs ID/信令服务和 hbbr 中继服务进程）是为 Linux 构建的，这也是运行它的标准方式。免费开源的社区服务器可以无限期免费运行，而 Server Pro 在此基础上增加了 Web 控制台、设备分组和自定义客户端生成器。两者都可以安装在普通的 Linux 虚拟机或裸机主机上。'
 metadata:
-  description: 'RustDesk 在 Linux 上的完整指南：涵盖各发行版与 ARM 开发板的安装包选择、Wayland 与 X11 屏幕捕获，以及自建服务器。'
+  description: 'RustDesk 在 Linux 上的完整指南：涵盖各发行版与 ARM 开发板的安装包选择、Wayland 与 X11 屏幕捕获、无头模式配置，以及自建服务器。'
   keywords: 'RustDesk Linux, RustDesk Ubuntu, RustDesk Wayland, RustDesk X11, RustDesk Linux 安装'
 ---
 
 长期以来，Linux 用户在优秀远程桌面工具上的选择一直不多，现有的产品通常要么是闭源商业软件，要么是老旧的 VNC 技术栈。RustDesk 走的是一条不同的路：它是一款采用 AGPL 协议开源授权的开源远程桌面客户端，能够在所有主流发行版上原生运行，并且你可以将它指向自己搭建的服务器。正是这种组合——可审计的代码、原生 Linux 客户端，以及可自建的基础设施——让 RustDesk 成为人们寻找 Linux 开源远程桌面方案时最常被提及的答案之一。
 
-本指南将介绍如何安装 RustDesk、几乎所有人都会踩中的那个坑（X11 与 Wayland 的区别）、如何让无人值守访问顺利运行，以及服务器在其中扮演的角色。
+本指南将介绍如何安装 RustDesk、几乎所有人都会踩中的那个坑（X11 与 Wayland 的区别）、如何让无人值守和无头访问顺利运行，以及服务器在其中扮演的角色。
 
 ## 在 Linux 上安装 RustDesk
 
@@ -61,6 +63,9 @@ Wayland 支持一直在持续改进——例如，RustDesk 1.4.3（2025 年 10 �
 
 1. 通过 `.deb` 或 `.rpm` 安装，以便注册 systemd 服务，或者在应用中点击**启用服务（Enable Service）**。
 2. 在 RustDesk 的连接设置中设置一个强度足够的**永久密码**（最好同时启用双因素身份验证）。
+3. 如果需要在用户登录前或跨登录会话进行访问，请考虑上文提到的 Wayland 登录界面限制。
+
+有一点 Wayland 的现实情况需要提前规划：在正在开发中的无人值守支持正式上线之前，前文 Wayland 部分提到的基于授权确认的门户机制，会让完全无人值守的屏幕捕获比在 X11 上更难实现。
 
 ## 无头 Linux：没有显示器的服务器
 
@@ -68,7 +73,7 @@ Wayland 支持一直在持续改进——例如，RustDesk 1.4.3（2025 年 10 �
 
 有两种方法可以让系统有内容可渲染：
 
-- **虚拟显示器插头（dummy plug）**——一种廉价的物理 HDMI/DisplayPort“无头”转接头，能让 GPU 误以为已经连接了显示器。
+- **显示器模拟插头（dummy plug）**——一种廉价的物理 HDMI/DisplayPort“无头”转接头，能让 GPU 误以为已经连接了显示器。
 - **虚拟显示驱动**——在 X11 上使用 `xserver-xorg-video-dummy`，或者使用像 VKMS 这样的内核级方案。
 
 ## 在 Linux 上自建 RustDesk 服务器

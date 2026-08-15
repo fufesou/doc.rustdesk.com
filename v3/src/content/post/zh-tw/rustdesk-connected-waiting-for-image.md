@@ -82,7 +82,7 @@ RustDesk 可以用多種方式編碼串流，而預設編碼格式不見得適�
 
 ### Linux 與 Wayland
 
-在 Linux 上，**Wayland 的畫面擷取是透過 PipeWire 與 `xdg-desktop-portal` 進行的**：第一次使用時會跳出提示，要求你同意並選擇要擷取的顯示器——多數情況下系統會記住這項選擇，之後就不會再次提示——且必須在有作用中的登入工作階段內才能運作。這是 Wayland 的安全性設計，因此單靠這個機制無法涵蓋登入畫面（greeter）——不過非互動式的 Wayland 擷取功能目前正在積極開發中（[PR #15420](https://github.com/rustdesk/rustdesk/pull/15420)）。如果你在 Wayland 上看到空白畫面，通常只要接受 portal 的畫面分享提示，並確認 `xdg-desktop-portal` 與 PipeWire 已安裝且正在執行即可解決。若發行版仍提供 X11/Xorg 工作階段，登入該工作階段也能繞過 portal 路徑——但由於愈來愈多發行版轉向僅支援 Wayland，修復 portal/PipeWire 路徑才是更長遠可靠的做法。
+在 Linux 上，**Wayland 的畫面擷取是透過 PipeWire 與 `xdg-desktop-portal` 進行的**：第一次使用時會跳出提示，要求你同意並選擇要擷取的顯示器——多數情況下系統會記住這項選擇，之後就不會再次提示——且必須在有作用中的登入工作階段內才能運作。這是 Wayland 的安全性設計，因此單靠這個機制無法涵蓋登入畫面（greeter）或真正的無頭主機——不過非互動式的 Wayland 擷取功能目前正在積極開發中（[PR #15420](https://github.com/rustdesk/rustdesk/pull/15420)）。如果你在 Wayland 上看到空白畫面，通常只要接受 portal 的畫面分享提示，並確認 `xdg-desktop-portal` 與 PipeWire 已安裝且正在執行即可解決。若發行版仍提供 X11/Xorg 工作階段，登入該工作階段也能繞過 portal 路徑——但由於愈來愈多發行版轉向僅支援 Wayland，修復 portal/PipeWire 路徑才是更長遠可靠的做法。
 
 ### 網路與中繼伺服器
 

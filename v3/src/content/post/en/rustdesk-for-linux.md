@@ -4,7 +4,7 @@ lang: en
 translationKey: rustdesk-for-linux
 draft: false
 title: 'RustDesk for Linux: The Open-Source Remote Desktop'
-excerpt: 'Install and run RustDesk on Linux: .deb, .rpm, Flatpak and AppImage, X11 vs Wayland, unattended access, and self-hosting the server.'
+excerpt: 'Install and run RustDesk on Linux: .deb, .rpm, Flatpak and AppImage, X11 vs Wayland, headless and unattended access, and self-hosting the server.'
 image: ~/assets/images/blog/rustdesk-for-linux-og.webp
 category: Guides
 tags:
@@ -14,19 +14,21 @@ tags:
 author: RustDesk Team
 faq:
   - question: 'Does RustDesk work on Wayland?'
-    answer: 'Yes — RustDesk has among the strongest Wayland support of any remote-desktop tool, including multi-monitor sharing added in 1.4.3. On Wayland it captures the screen through PipeWire and the XDG desktop portal, which shows a consent dialog to pick a display — in most cases the choice is remembered, so you are not asked again — and works within the active logged-in session. That consent step is a Wayland security design shared by every screen-sharing app. For pre-login or fully unattended machines today, use an X11 session where a distribution still offers one, since several are moving to Wayland-only; full unattended Wayland capture is in active development (see github.com/rustdesk/rustdesk/pull/15420).'
+    answer: 'Yes — RustDesk has among the strongest Wayland support of any remote-desktop tool, including multi-monitor sharing added in 1.4.3. On Wayland it captures the screen through PipeWire and the XDG desktop portal, which shows a consent dialog to pick a display — in most cases the choice is remembered, so you are not asked again — and works within the active logged-in session. That consent step is a Wayland security design shared by every screen-sharing app. For pre-login or fully unattended machines today, use an X11 session where a distribution still offers one (several are moving to Wayland-only); full unattended Wayland capture is in active development (see github.com/rustdesk/rustdesk/pull/15420).'
   - question: 'Which package should I install on Linux?'
     answer: 'Use the .deb on Debian, Ubuntu and Linux Mint, the .rpm on Fedora, RHEL and openSUSE, the Flatpak from Flathub for a sandboxed, broadly compatible build, or the portable AppImage as a single-file fallback. The .deb and .rpm packages register and start a systemd service so RustDesk survives reboots; the Flatpak and AppImage do not by default.'
+  - question: 'Why does my headless Linux box show a black screen?'
+    answer: "With no monitor attached, X or Wayland never allocates a framebuffer, so there is nothing for RustDesk to capture and the viewer shows a black or waiting-for-image screen. Attach a dummy HDMI/DisplayPort plug, or see the headless section below for other options."
   - question: 'Can I self-host the RustDesk server on Linux?'
     answer: 'Yes. The RustDesk server (the hbbs ID/rendezvous and hbbr relay processes) is built for Linux and is the standard way to run it. The free open-source community server runs indefinitely at no cost, and Server Pro adds a web console, device groups and a custom client generator on top. Both install on a plain Linux VM or bare-metal host.'
 metadata:
-  description: 'RustDesk on Linux, end to end: package choices for every distro and ARM board, Wayland and X11 capture, and running your own server.'
+  description: 'RustDesk on Linux, end to end: package choices for every distro and ARM board, Wayland and X11 capture, headless setup, and running your own server.'
   keywords: 'RustDesk for Linux, RustDesk Ubuntu, RustDesk Wayland, RustDesk X11, RustDesk Linux install'
 ---
 
 Linux users have never had a huge choice of good remote desktop tools, and the ones that exist are usually either closed-source commercial products or aging VNC stacks. RustDesk sits in a different spot: it is an open-source remote desktop client licensed under the AGPL, it runs natively on all the major distributions, and you can point it at a server you host yourself. That combination — auditable code, native Linux client, and self-hostable infrastructure — is why RustDesk has become one of the go-to answers when someone asks for an open-source remote desktop for Linux.
 
-This guide covers how to install it, the one thing that trips everyone up (X11 versus Wayland), how to get unattended access working, and where the server fits in.
+This guide covers how to install it, the one thing that trips everyone up (X11 versus Wayland), how to get unattended and headless access working, and where the server fits in.
 
 ## Installing RustDesk on Linux
 
@@ -63,6 +65,9 @@ Unattended access means connecting to a machine with nobody sitting in front of 
 
 1. Install via `.deb` or `.rpm` so the systemd service is registered, or click **Enable Service** in the app.
 2. In RustDesk, set a strong **permanent password** under the connection settings (and ideally enable two-factor authentication).
+3. For access before or across user logins, account for the Wayland greeter limitation described above.
+
+One Wayland reality to plan for: the consent-based portal described in the Wayland section makes fully unattended capture harder than on X11 until the in-development unattended support lands.
 
 ## Headless Linux: servers with no monitor
 

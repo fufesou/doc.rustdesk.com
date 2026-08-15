@@ -58,7 +58,7 @@ metadata:
 | ------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
 | Windows | 安装；保持服务处于运行状态（随设备自动启动） | 便携版 exe 会在注销或出现 UAC 提示时中断；请使用安装程序                                                    |
 | macOS   | 安装、设置永久密码、授予相关权限             | 必须授予“屏幕录制”和“辅助功能”权限；登录界面下的画面捕获需要安装辅助进程                                    |
-| Linux   | 安装服务组件                                 | Wayland 需要一个处于活动状态的会话；如需登录前访问，请在发行版仍提供 X11 时使用 X11                               |
+| Linux   | 安装服务组件                                 | Wayland 需要一个处于活动状态的会话；如需登录前访问，请使用无头虚拟显示配置，或在发行版仍提供 X11 时使用 X11 |
 | Android | 设置永久密码；启用画面捕获                   | 屏幕必须保持唤醒状态；需授予屏幕捕获（MediaProjection）许可及输入权限                                       |
 
 ### Windows
@@ -71,7 +71,7 @@ macOS 会将屏幕捕获和输入功能置于权限管控之下。安装完成�
 
 ### Linux
 
-安装 RustDesk，使其服务组件能够在开机时运行。对于停留在登录欢迎界面（greeter）的设备，Wayland 目前还无法捕获该欢迎界面——这是 Wayland 本身的设计限制（而非 RustDesk 的限制），RustDesk 正在积极推动解决这一问题（[PR #15420](https://github.com/rustdesk/rustdesk/pull/15420)）。对于桌面设备，只要发行版仍提供 X11/Xorg 会话，该方式依然可以正常处理，不过已有多个发行版正在转向纯 Wayland。详情请参阅 [RustDesk for Linux](/zh-cn/blog/rustdesk-for-linux-zh-cn)。
+安装 RustDesk，使其服务组件能够在开机时运行。对于停留在登录欢迎界面（greeter）的设备，Wayland 目前还无法捕获该欢迎界面——这是 Wayland 本身的设计限制（而非 RustDesk 的限制），RustDesk 正在积极推动解决这一问题（[PR #15420](https://github.com/rustdesk/rustdesk/pull/15420)）。对于无头（headless）设备，请使用虚拟显示配置；对于桌面设备，只要发行版仍提供 X11/Xorg 会话，该方式依然可以正常处理，不过已有多个发行版正在转向纯 Wayland。详情请参阅 [RustDesk for Linux](/zh-cn/blog/rustdesk-for-linux-zh-cn)。
 
 ## 第三步：使用预配置客户端进行规模化部署
 
